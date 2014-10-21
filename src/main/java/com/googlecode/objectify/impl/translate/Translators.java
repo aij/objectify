@@ -57,6 +57,7 @@ public class Translators
 		this.translatorFactories.add(new ContainerTranslatorFactory());
 		this.translatorFactories.add(new SerializeTranslatorFactory());	// Serialize has priority over everything
 		this.translatorFactories.add(new MapifyTranslatorFactory());
+		this.translatorFactories.add(new ProtobufTranslatorFactory());
 
 		// Magic inflection point at which we want to prioritize added normal translators
 		this.insertPoint = this.translatorFactories.size();

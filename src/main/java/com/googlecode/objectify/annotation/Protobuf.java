@@ -22,5 +22,4 @@ import java.util.zip.Deflater;
 @Target({ElementType.FIELD})
 public @interface Protobuf
 {
-	// TODO: Will we need to add anything here for deserialization to be possible?
 }
