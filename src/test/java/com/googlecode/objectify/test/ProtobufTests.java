@@ -43,4 +43,36 @@ public class ProtobufTests extends TestBase {
 	// TODO: Check that the blob being stored is actually a serialized protobuf
 	// that could be parsed in other languages too. For example,
 	// DescriptorProtos.FieldDescriptorProto.parseFrom(data) should work.
+
+	@Entity
+	@Cache
+	public static class HasProtoArray {
+		@Id public Long id;
+		@Protobuf public DescriptorProtos.FieldDescriptorProto[] protos;
+	}
+
+	@Test
+	public void testProtobufArray() throws Exception {
+		fact().register(HasProtoArray.class);
+
+		DescriptorProtos.FieldDescriptorProto[] p = {
+			DescriptorProtos.FieldDescriptorProto.newBuilder()
+			.setName("foo")
+			.setNumber(57)
+			.setType(DescriptorProtos.FieldDescriptorProto.Type.TYPE_STRING)
+			.build(),
+			DescriptorProtos.FieldDescriptorProto.newBuilder()
+			.setName("bar")
+			.setNumber(42)
+			.setType(DescriptorProtos.FieldDescriptorProto.Type.TYPE_INT32)
+			.build()
+		};
+
+		HasProtoArray hp = new HasProtoArray();
+		hp.protos = p;
+
+		HasProtoArray fetched = ofy().saveClearLoad(hp);
+		assert p[0].equals(fetched.protos[0]);
+		assert p[1].equals(fetched.protos[1]);
+	}
 }
