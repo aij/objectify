@@ -29,7 +29,7 @@ public class ProtobufTranslatorFactory implements TranslatorFactory<GeneratedMes
 		try {
 			parser = (Parser<? extends GeneratedMessage>)type.getField("PARSER").get(null);
 		} catch (java.lang.NoSuchFieldException e) {
-			path.throwIllegalState("@Protobuf annotation must only be used on protobufs. Type '" + type.getName() + "' does not have a parser.", e);
+			// If there is no parser this must not be a proto. Fall back to other translators.
 			return null;
 		} catch (java.lang.IllegalAccessException e) {
 			path.throwIllegalState("IllegalAccessException while trying to get parser for" + type.getName(), e);
